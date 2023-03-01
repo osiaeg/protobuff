@@ -1,1 +1,0 @@
-/usr/bin/c++ -rdynamic CMakeFiles/list_people_cpp.dir/list_people.cc.o CMakeFiles/list_people_cpp.dir/addressbook.pb.cc.o -o list_people_cpp  /usr/local/lib/libprotobuf.a /usr/lib/libz.so 

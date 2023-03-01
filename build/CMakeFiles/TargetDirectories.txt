@@ -1,5 +1,0 @@
-/home/osia/Documents/code/C++/protobuff/build/CMakeFiles/edit_cache.dir
-/home/osia/Documents/code/C++/protobuff/build/CMakeFiles/rebuild_cache.dir
-/home/osia/Documents/code/C++/protobuff/build/src/CMakeFiles/protobuf_parser.dir
-/home/osia/Documents/code/C++/protobuff/build/src/CMakeFiles/edit_cache.dir
-/home/osia/Documents/code/C++/protobuff/build/src/CMakeFiles/rebuild_cache.dir

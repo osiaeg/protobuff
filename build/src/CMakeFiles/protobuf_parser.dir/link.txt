@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/protobuf_parser.dir/protobuf_parser/main.cpp.o CMakeFiles/protobuf_parser.dir/wrappermessage.pb.cc.o -o protobuf_parser  -Wl,-rpath,/usr/local/lib /usr/local/lib/libprotobuf.so 

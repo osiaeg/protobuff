@@ -1,2 +1,0 @@
-# Hashes of file build rules.
-2ab0d030dd9f52ccdac41e1b9da3d7df src/wrappermessage.pb.h
