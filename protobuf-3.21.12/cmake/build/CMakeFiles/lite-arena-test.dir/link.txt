@@ -1,0 +1,1 @@
+/usr/bin/c++ "CMakeFiles/lite-arena-test.dir/home/osia/Documents/code/C++/protobuff/protobuf-3.21.12/src/google/protobuf/lite_arena_unittest.cc.o" -o lite-arena-test  libprotobuf-lite-test-common.a libprotobuf-lite.a libgmock_main.a libgmock.a 

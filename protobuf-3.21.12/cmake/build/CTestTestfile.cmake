@@ -1,0 +1,12 @@
+# CMake generated Testfile for 
+# Source directory: /home/osia/Documents/code/C++/protobuff/protobuf-3.21.12/cmake
+# Build directory: /home/osia/Documents/code/C++/protobuff/protobuf-3.21.12/cmake/build
+# 
+# This file includes the relevant testing commands required for 
+# testing this directory and lists subdirectories to be tested as well.
+add_test(lite-test "/home/osia/Documents/code/C++/protobuff/protobuf-3.21.12/cmake/build/lite-test")
+set_tests_properties(lite-test PROPERTIES  _BACKTRACE_TRIPLES "/home/osia/Documents/code/C++/protobuff/protobuf-3.21.12/cmake/tests.cmake;275;add_test;/home/osia/Documents/code/C++/protobuff/protobuf-3.21.12/cmake/tests.cmake;0;;/home/osia/Documents/code/C++/protobuff/protobuf-3.21.12/CMakeLists.txt;334;include;/home/osia/Documents/code/C++/protobuff/protobuf-3.21.12/CMakeLists.txt;0;;/home/osia/Documents/code/C++/protobuff/protobuf-3.21.12/cmake/CMakeLists.txt;9;include;/home/osia/Documents/code/C++/protobuff/protobuf-3.21.12/cmake/CMakeLists.txt;0;")
+add_test(lite-arena-test "/home/osia/Documents/code/C++/protobuff/protobuf-3.21.12/cmake/build/lite-arena-test")
+set_tests_properties(lite-arena-test PROPERTIES  _BACKTRACE_TRIPLES "/home/osia/Documents/code/C++/protobuff/protobuf-3.21.12/cmake/tests.cmake;284;add_test;/home/osia/Documents/code/C++/protobuff/protobuf-3.21.12/cmake/tests.cmake;0;;/home/osia/Documents/code/C++/protobuff/protobuf-3.21.12/CMakeLists.txt;334;include;/home/osia/Documents/code/C++/protobuff/protobuf-3.21.12/CMakeLists.txt;0;;/home/osia/Documents/code/C++/protobuff/protobuf-3.21.12/cmake/CMakeLists.txt;9;include;/home/osia/Documents/code/C++/protobuff/protobuf-3.21.12/cmake/CMakeLists.txt;0;")
+add_test(check "/home/osia/Documents/code/C++/protobuff/protobuf-3.21.12/cmake/build/tests")
+set_tests_properties(check PROPERTIES  WORKING_DIRECTORY "/home/osia/Documents/code/C++/protobuff/protobuf-3.21.12" _BACKTRACE_TRIPLES "/home/osia/Documents/code/C++/protobuff/protobuf-3.21.12/cmake/tests.cmake;292;add_test;/home/osia/Documents/code/C++/protobuff/protobuf-3.21.12/cmake/tests.cmake;0;;/home/osia/Documents/code/C++/protobuff/protobuf-3.21.12/CMakeLists.txt;334;include;/home/osia/Documents/code/C++/protobuff/protobuf-3.21.12/CMakeLists.txt;0;;/home/osia/Documents/code/C++/protobuff/protobuf-3.21.12/cmake/CMakeLists.txt;9;include;/home/osia/Documents/code/C++/protobuff/protobuf-3.21.12/cmake/CMakeLists.txt;0;")
