@@ -1,4 +1,0 @@
-/home/osia/Documents/code/C++/protobuff/protobuf-3.21.12/examples/build/CMakeFiles/add_person_cpp.dir
-/home/osia/Documents/code/C++/protobuff/protobuf-3.21.12/examples/build/CMakeFiles/list_people_cpp.dir
-/home/osia/Documents/code/C++/protobuff/protobuf-3.21.12/examples/build/CMakeFiles/edit_cache.dir
-/home/osia/Documents/code/C++/protobuff/protobuf-3.21.12/examples/build/CMakeFiles/rebuild_cache.dir
