@@ -9,9 +9,11 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS protos/wrappermessage.proto)
 
-add_executable(protobuf_parser 
-    protobuf_parser/main.cpp
+add_executable(parser 
+    main.cpp
     ${PROTO_HDRS}
     ${PROTO_SRCS})
-target_link_libraries(protobuf_parser ${Protobuf_LIBRARIES})
-exec_program(protobuf_parser)
+target_link_libraries(parser ${Protobuf_LIBRARIES})
+target_include_directories(parser PUBLIC third_party)
+target_include_directories(parser PUBLIC protobuf_parser)
+exec_program(parser)
