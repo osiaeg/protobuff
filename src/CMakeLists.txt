@@ -4,8 +4,6 @@ project(protobuf_parser)
 set(CMAKE_CXX_STANDARD 20)
 
 find_package(Protobuf REQUIRED)
-#include_directories(${Protobuf_INCLUDE_DIRS})
-#include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 add_subdirectory(protobuf_parser)
 

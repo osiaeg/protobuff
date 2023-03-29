@@ -2,5 +2,5 @@
 rm -rf build/*
 ls build
 cmake -B build
-cmake --build build --parallel --config Release
-./build/parser
+cmake --build build -j 8
+./build/src/parser

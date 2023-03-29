@@ -1,3 +1,6 @@
 protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS ../protos/wrappermessage.proto)
-add_library( Helpers helpers.cpp ${PROTO_SRCS} ${PROTO_HDRS})
+add_library(Helpers helpers.h ${PROTO_SRCS} ${PROTO_HDRS})
+add_library(MessageParser DelimitedMessagesStreamParser.h ${PROTO_SRCS} ${PROTO_HDRS})
+target_link_libraries(Helpers MessageParser)
 target_include_directories(Helpers PUBLIC "${PROJECT_BINARY_DIR}/protobuf_parser")
+target_include_directories(MessageParser PUBLIC "${PROJECT_BINARY_DIR}/protobuf_parser")

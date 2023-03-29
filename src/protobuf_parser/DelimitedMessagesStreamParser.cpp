@@ -1,23 +1,14 @@
-/*
- * DelimitedMessagesStreamParser.hpp
- *
- *  Created on: 2 Feb 2023
- *      Author: sia
- */
-
-#ifndef SRC_PROTOBUF_PARSER_DELIMITEDMESSAGESSTREAMPARSER_HPP_
-#define SRC_PROTOBUF_PARSER_DELIMITEDMESSAGESSTREAMPARSER_HPP_
+#include "DelimitedMessagesStreamParser.h"
+#include "helpers.h"
 
 template <typename MessageType>
-class DelimitedMessagesStreamParser
-{
- public:
-  typedef std::shared_ptr<const MessageType> PointerToConstValue;
+DelimitedMessagesStreamParser<MessageType>::parse( const std::string& data) {
+    std::list<PointerToConstValue> list;
+    m_buffer.push_back((char) data[0]);
+    std::shared_ptr<Message_type> msg = parseDelimited<MessageType>(m_buffer.data(), m_buffer.size());
 
-  std::list<PointerToConstValue> parse(const std::string& data);
-
- private:
-  std::vector<char> m_buffer;
-};
-
-#endif /* SRC_PROTOBUF_PARSER_DELIMITEDMESSAGESSTREAMPARSER_HPP_ */
+    if (msg) {
+      list.push_back(msg);
+      m_buffer.clear();
+    }
+}
