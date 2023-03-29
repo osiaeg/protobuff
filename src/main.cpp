@@ -5,33 +5,6 @@ Messages::WrapperMessage* create_fast_response(std::string date);
 Messages::WrapperMessage* create_slow_response(unsigned count);
 Messages::WrapperMessage* create_request_for_fast_response();
 Messages::WrapperMessage* create_request_for_slow_response(unsigned long time);
-void check_message_field(Messages::WrapperMessage* message);
-
-/*
-template<typename MessageType>
-class DelimitedMessagesStreamParser {
-    private:
-        std::vector<char> m_buffer;
-
-    public:
-        typedef std::shared_ptr<const MessageType> PointerToConstValue;
-
-        std::list<PointerToConstValue> parse(const std::string& data) {
-            
-            //std::cout << "Run parse()" << std::endl;
-            std::list<PointerToConstValue> list;
-            m_buffer.push_back((char) data[0]);
-            std::shared_ptr<MessageType> msg = parseDelimited<MessageType>(m_buffer.data(), m_buffer.size());
-
-            if (msg) {
-                list.push_back(msg);
-                m_buffer.clear();
-            }
-
-            return list;
-        }
-};
-*/
 
 int main(int argc, char* argv[]) {
 
