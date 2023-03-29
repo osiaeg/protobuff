@@ -4,32 +4,23 @@
  *  Created on: 2 Feb 2023
  *      Author: sia
  */
-#include <iostream>
-#include <vector>
-#include <fstream>
-#include "wrappermessage.pb.h"
-//#include <list>
 
 #ifndef SRC_PROTOBUF_PARSER_HELPERS_H_
 #define SRC_PROTOBUF_PARSER_HELPERS_H_
 
-#if GOOGLE_PROTOBUF_VERSION >= 3012004
-#define PROTOBUF_MESSAGE_BYTE_SIZE(message) ((message).ByteSizeLong())
-#else
-#define PROTOBUF_MESSAGE_BYTE_SIZE(message) ((message).ByteSize())
-#endif
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include "wrappermessage.pb.h"
 
 using Data = std::vector<char>;
-using PointerToConstData = std::shared_ptr<const Data> ;
-using PointerToData = std::shared_ptr<Data> ;
+using PointerToData = std::shared_ptr<Data>;
+using PointerToConstData = std::shared_ptr<const Data>;
 using uint8 = google::protobuf::uint8;
 using uint32 = google::protobuf::uint32;
 
-
-
-template <typename Message> 
-PointerToConstData serializeDelimited(const Message& msg);
-
+template <typename Message>
+std::shared_ptr<Message> parseDelimited(const void* data, size_t size, size_t* bytesConsumed = 0);
 
 /*!
  * \brief Расшифровывает сообщение, предваренное длиной из массива байтов.
@@ -45,7 +36,7 @@ PointerToConstData serializeDelimited(const Message& msg);
  * \return Умный указатель на сообщение. Если удалось расшифровать сообщение, то
  * он не пустой.
  */
-template <typename Message>
-std::shared_ptr<Message> parseDelimited(const void* data, size_t size, size_t* bytesConsumed = 0);
+template <typename Message> 
+PointerToConstData serializeDelimited(const Message& msg);
 
 #endif /* SRC_PROTOBUF_PARSER_HELPERS_H_ */

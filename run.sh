@@ -1,4 +1,6 @@
 #!/bin/bash
+rm -rf build/*
+ls build
 cmake -B build
-cmake --build build --parallel --config Release && clear
-./build/src/parser
+cmake --build build --parallel --config Release
+./build/parser

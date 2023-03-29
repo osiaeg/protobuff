@@ -1,9 +1,9 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
-#include "wrappermessage.pb.h"
-//#include "helpers.h"
-#include "boost/make_shared.hpp"
+//#include "wrappermessage.pb.h"
+#include "helpers.h"
+//#include "boost/make_shared.hpp"
 #include <list>
 
 using Data = std::vector<char>;
@@ -13,10 +13,13 @@ using PointerToData = std::shared_ptr<Data> ;
 using uint8 = google::protobuf::uint8;
 using uint32 = google::protobuf::uint32;
 
+/*
 template <typename Message>
 std::shared_ptr<Message> parseDelimited(const void* data, size_t size, size_t* bytesConsumed = 0);
 template <typename Message>
 PointerToConstData serializeDelimited(const Message& msg);
+*/
+
 Messages::WrapperMessage* create_fast_response(std::string date);
 Messages::WrapperMessage* create_slow_response(unsigned count);
 Messages::WrapperMessage* create_request_for_fast_response();
@@ -87,6 +90,7 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
+/*
 template<typename Message>
 std::shared_ptr<Message> parseDelimited(const void* data, size_t size, size_t* bytesConsumed) {
     //std::cout << "Run parseDelimited()" << std::endl;
@@ -124,6 +128,8 @@ template <typename Message> PointerToConstData serializeDelimited(const Message&
 
     return result;
 }
+*/
+
 
 Messages::WrapperMessage* create_fast_response(std::string date) {
     Messages::WrapperMessage* message;

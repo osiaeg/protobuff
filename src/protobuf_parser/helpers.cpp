@@ -1,7 +1,18 @@
-#include "helpers.h"
+//#include "helpers.h"
 
-template<typename Message>
-std::shared_ptr<Message> parseDelimited(const void* data, size_t size, size_t* bytesConsumed) {
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include <list>
+#include "wrappermessage.pb.h"
+
+using Data = std::vector<char>;
+using PointerToConstData = std::shared_ptr<const Data>;
+using PointerToData = std::shared_ptr<Data>;
+using uint8 = google::protobuf::uint8;
+using uint32 = google::protobuf::uint32;
+
+template<typename Message> std::shared_ptr<Message> parseDelimited(const void* data, size_t size, size_t* bytesConsumed) {
     //std::cout << "Run parseDelimited()" << std::endl;
     if (size == 1) {
         return nullptr;

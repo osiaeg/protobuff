@@ -4,16 +4,16 @@ project(protobuf_parser)
 set(CMAKE_CXX_STANDARD 20)
 
 find_package(Protobuf REQUIRED)
-include_directories(${Protobuf_INCLUDE_DIRS})
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
+#include_directories(${Protobuf_INCLUDE_DIRS})
+#include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS protos/wrappermessage.proto)
+add_subdirectory(protobuf_parser)
 
-add_executable(parser 
-    main.cpp
-    ${PROTO_HDRS}
-    ${PROTO_SRCS})
-target_link_libraries(parser ${Protobuf_LIBRARIES})
-target_include_directories(parser PUBLIC third_party)
-target_include_directories(parser PUBLIC protobuf_parser)
-exec_program(parser)
+add_executable(parser main.cpp)
+
+target_link_libraries(parser PUBLIC ${Protobuf_LIBRARIES} Helpers)
+target_include_directories(parser PUBLIC
+    "${PROJECT_SOURCE_DIR}/protobuf_parser"
+    "${PROJECT_SOURCE_DIR}/third_party")
+
+
