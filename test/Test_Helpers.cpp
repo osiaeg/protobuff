@@ -5,7 +5,6 @@
  *      Author: sia
  */
 #include <gtest/gtest.h>
-#include "helpers.h"
 
 TEST(HelloTest, BasicAssertions) {
     // Expect two strings not to be equal.
