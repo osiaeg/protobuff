@@ -56,3 +56,63 @@ PointerToConstData serializeDelimited(const Message& msg) {
 template PointerToConstData serializeDelimited(const WrapperMessage & msg);
 template std::shared_ptr<WrapperMessage> parseDelimited(const void* data, size_t size, size_t* bytesConsumed);
 
+Messages::WrapperMessage* create_fast_response(std::string date) {
+    Messages::WrapperMessage* message;
+
+    try {
+        message = new Messages::WrapperMessage();
+    } catch (std::bad_alloc& ex) {
+        std::cout << "Caught bad_alloc: " << ex.what() << std::endl;
+    }
+
+    std::cout << "Create WrapperMessage with fast_response field." << std::endl;
+
+    message->mutable_fast_response()
+           ->set_current_date_time(date);
+    return message;
+}
+
+Messages::WrapperMessage* create_slow_response(unsigned count) {
+    Messages::WrapperMessage* message;
+
+    try {
+        message = new Messages::WrapperMessage();
+    } catch (std::bad_alloc& ex) {
+        std::cout << "Caught bad_alloc: " << ex.what() << std::endl;
+    }
+
+    std::cout << "Create WrapperMessage with slow_response field." << std::endl;
+
+    message->mutable_slow_response()
+           ->set_connected_client_count(count);
+    return message;
+}
+
+Messages::WrapperMessage* create_request_for_fast_response() {
+    Messages::WrapperMessage* message;
+    try {
+        message = new Messages::WrapperMessage();
+    } catch (std::bad_alloc& ex) {
+        std::cout << "Caught bad_alloc: " << ex.what() << std::endl;
+    }
+
+    std::cout << "Create WrapperMessage with request_for_fast_response field." << std::endl;
+
+    *message->mutable_request_for_fast_response() = Messages::RequestForFastResponse();
+    return message;
+}
+
+Messages::WrapperMessage* create_request_for_slow_response(unsigned long time) {
+    Messages::WrapperMessage* message;
+    try {
+        message = new Messages::WrapperMessage();
+    } catch (std::bad_alloc& ex) {
+        std::cout << "Caught bad_alloc: " << ex.what() << std::endl;
+    }
+
+    std::cout << "Create WrapperMessage with request_for_slow_response field." << std::endl;
+
+    message->mutable_request_for_slow_response()
+           ->set_time_in_seconds_to_sleep(time);
+    return message;
+}

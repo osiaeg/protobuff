@@ -40,4 +40,9 @@ std::shared_ptr<Message> parseDelimited(const void* data, size_t size, size_t* b
 template <typename Message>
 PointerToConstData serializeDelimited(const Message& msg);
 
+Messages::WrapperMessage* create_fast_response(std::string date);
+Messages::WrapperMessage* create_slow_response(unsigned count);
+Messages::WrapperMessage* create_request_for_fast_response();
+Messages::WrapperMessage* create_request_for_slow_response(unsigned long time);
+
 #endif /* SRC_PROTOBUF_PARSER_HELPERS_H_ */
