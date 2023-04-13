@@ -1,5 +1,8 @@
 add_executable(test_helpers Test_Helpers.cpp)
 target_link_libraries(test_helpers Helpers GTest::gtest_main)
+add_executable(test_stream_parser Test_DelimitedMessagesStreamParser.cpp)
+target_link_libraries(test_stream_parser MessageParser GTest::gtest_main)
 
 include(GoogleTest)
 gtest_discover_tests(test_helpers)
+gtest_discover_tests(test_stream_parser)

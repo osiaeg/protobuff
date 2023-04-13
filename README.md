@@ -1,4 +1,4 @@
-# 102-cpp-protobuf
+# 417-cpp-protobuf
 
 ## Installation
 
@@ -13,4 +13,9 @@ cmake -B build -DCMAKE_CXX_STANDARD=14
 cmake --build build
 cd build
 sudo make install
+```
+
+To run a program and tests
+```
+./run.sh
 ```
