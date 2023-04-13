@@ -12,6 +12,6 @@ add_executable(parser main.cpp)
 target_link_libraries(parser PUBLIC MessageParser)
 target_include_directories(parser PUBLIC
     "${PROJECT_SOURCE_DIR}/protobuf_parser"
-    "${PROJECT_SOURCE_DIR}/third_party")
+    )
 
 
