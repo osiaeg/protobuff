@@ -26,6 +26,7 @@ int main(int argc, char* argv[]) {
     Parser parser;
 
     // идем по одному байту по входному потоку сообщений
+    std::cout << "Messages size: " << messages.size() << std::endl;
     for(const char byte : messages) {
         const std::list<std::shared_ptr<const Messages::WrapperMessage>>& parsedMessages = parser.parse(std::string(1, byte));
         for(const std::shared_ptr<const Messages::WrapperMessage>& value : parsedMessages) {
@@ -33,8 +34,6 @@ int main(int argc, char* argv[]) {
             // добавляем куда-то все сообщения
         }
     }
-    // тут код проверки, что все сообщения расшифровались верно
-    //
 
     google::protobuf::ShutdownProtobufLibrary();
     std::cout << "Shutdown Protobuf Library" << std::endl;

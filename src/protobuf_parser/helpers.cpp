@@ -1,27 +1,8 @@
 #include "helpers.h"
+using namespace google::protobuf::io;
 
 template<typename Message>
 std::shared_ptr<Message> parseDelimited(const void* data, size_t size, size_t* bytesConsumed) {
-    //std::cout << "Run parseDelimited()" << std::endl;
-    if (size == 1) {
-        return nullptr;
-    }
-
-    std::shared_ptr<Message> message {std::make_shared<Message>(Message())};
-    std::string message_data;
-    uint32 message_size;
-
-    google::protobuf::io::CodedInputStream codedInput((uint8*)data, size);
-
-    codedInput.ReadVarint32(&message_size);
-    codedInput.ReadString(&message_data, message_size);
-    if (message->ParseFromString(message_data)) {
-        return message;
-    } else {
-        return nullptr;
-    }
-}
-
 /*!
  * \brief Расшифровывает сообщение, предваренное длиной из массива байтов.
  *
@@ -36,6 +17,36 @@ std::shared_ptr<Message> parseDelimited(const void* data, size_t size, size_t* b
  * \return Умный указатель на сообщение. Если удалось расшифровать сообщение, то
  * он не пустой.
  */
+    std::shared_ptr<Message> message {std::make_shared<Message>(Message())};
+    uint32 message_size;
+
+    CodedInputStream codedInput((uint8*)data, size);
+
+    if (codedInput.ReadVarint32(&message_size)) {
+        const size_t varintSize = CodedOutputStream::VarintSize32(message_size);
+        const size_t totalFrameSize = varintSize + message_size;
+
+        if (size >= totalFrameSize) {
+            if (message->ParseFromCodedStream(&codedInput)) {
+                if (bytesConsumed) {
+                    *bytesConsumed = totalFrameSize;
+                }
+                return message;
+            } else {
+                std::cout << "Parsing failed" << std::endl;
+                return nullptr;
+            }
+        } else {
+            //std::cout << "Don't have enough bytes in buffer" << std::endl;
+            return nullptr;
+        }
+    
+    } else {
+        std::cout << "Cant't raed varint" << std::endl;
+        return nullptr;
+    }
+}
+
 template <typename Message>
 PointerToConstData serializeDelimited(const Message& msg) {
     //std::cout << "Run serializeDelimited()" << std::endl;
@@ -65,7 +76,7 @@ Messages::WrapperMessage* create_fast_response(std::string date) {
         std::cout << "Caught bad_alloc: " << ex.what() << std::endl;
     }
 
-    std::cout << "Create WrapperMessage with fast_response field." << std::endl;
+    //std::cout << "Create WrapperMessage with fast_response field." << std::endl;
 
     message->mutable_fast_response()
            ->set_current_date_time(date);
@@ -81,7 +92,7 @@ Messages::WrapperMessage* create_slow_response(unsigned count) {
         std::cout << "Caught bad_alloc: " << ex.what() << std::endl;
     }
 
-    std::cout << "Create WrapperMessage with slow_response field." << std::endl;
+    //std::cout << "Create WrapperMessage with slow_response field." << std::endl;
 
     message->mutable_slow_response()
            ->set_connected_client_count(count);
@@ -96,7 +107,7 @@ Messages::WrapperMessage* create_request_for_fast_response() {
         std::cout << "Caught bad_alloc: " << ex.what() << std::endl;
     }
 
-    std::cout << "Create WrapperMessage with request_for_fast_response field." << std::endl;
+    //std::cout << "Create WrapperMessage with request_for_fast_response field." << std::endl;
 
     *message->mutable_request_for_fast_response() = Messages::RequestForFastResponse();
     return message;
@@ -110,7 +121,7 @@ Messages::WrapperMessage* create_request_for_slow_response(unsigned long time) {
         std::cout << "Caught bad_alloc: " << ex.what() << std::endl;
     }
 
-    std::cout << "Create WrapperMessage with request_for_slow_response field." << std::endl;
+    //std::cout << "Create WrapperMessage with request_for_slow_response field." << std::endl;
 
     message->mutable_request_for_slow_response()
            ->set_time_in_seconds_to_sleep(time);

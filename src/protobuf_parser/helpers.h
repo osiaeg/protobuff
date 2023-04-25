@@ -21,7 +21,7 @@ using uint32 = google::protobuf::uint32;
 using WrapperMessage = Messages::WrapperMessage;
 
 template<typename Message>
-std::shared_ptr<Message> parseDelimited(const void* data, size_t size, size_t* bytesConsumed = 0);
+std::shared_ptr<Message> parseDelimited(const void* data, size_t size, size_t* bytesConsumed = nullptr);
 
 /*!
  * \brief Расшифровывает сообщение, предваренное длиной из массива байтов.
