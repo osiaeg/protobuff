@@ -26,12 +26,21 @@ int main(int argc, char* argv[]) {
     Parser parser;
 
     // идем по одному байту по входному потоку сообщений
-    std::cout << "Messages size: " << messages.size() << std::endl;
-    for(const char byte : messages) {
-        const std::list<std::shared_ptr<const Messages::WrapperMessage>>& parsedMessages = parser.parse(std::string(1, byte));
+    std::list<std::vector<char>> packages;
+    std::vector<char> package;
+    for (int i = 0; i < messages.size(); i++) {
+        if (i % 10 == 0) {
+            packages.push_back(package);
+            package.clear();
+        }
+        package.push_back(messages.at(i));
+    }
+    packages.push_back(package);
+    
+    for (auto pack : packages) {
+        const std::list<std::shared_ptr<const Messages::WrapperMessage>>& parsedMessages = parser.parse(std::string(pack.begin(), pack.end()));
         for(const std::shared_ptr<const Messages::WrapperMessage>& value : parsedMessages) {
             std::cout << value->DebugString() << std::endl;
-            // добавляем куда-то все сообщения
         }
     }
 
