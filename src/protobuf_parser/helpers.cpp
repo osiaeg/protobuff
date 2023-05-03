@@ -18,33 +18,32 @@ std::shared_ptr<Message> parseDelimited(const void* data, size_t size, size_t* b
  * он не пустой.
  */
     std::shared_ptr<Message> message {std::make_shared<Message>(Message())};
-    uint32 message_size;
+    uint32 message_size {0};
 
     CodedInputStream codedInput((uint8*)data, size);
 
-    if (codedInput.ReadVarint32(&message_size)) {
-        const size_t varintSize = CodedOutputStream::VarintSize32(message_size);
-        const size_t totalFrameSize = varintSize + message_size;
-
-        if (size >= totalFrameSize) {
-            if (message->ParseFromCodedStream(&codedInput)) {
-                if (bytesConsumed) {
-                    *bytesConsumed = totalFrameSize;
-                }
-                return message;
-            } else {
-                std::cout << "Parsing failed" << std::endl;
-                return nullptr;
-            }
-        } else {
-            //std::cout << "Don't have enough bytes in buffer" << std::endl;
-            return nullptr;
-        }
-    
-    } else {
+    if (!codedInput.ReadVarint32(&message_size)) {
         std::cout << "Cant't raed varint" << std::endl;
         return nullptr;
     }
+
+    CodedInputStream::Limit limit = codedInput.PushLimit(message_size);
+    const size_t varintSize = CodedOutputStream::VarintSize32(message_size);
+    const size_t totalFrameSize = varintSize + message_size;
+
+    if (size < totalFrameSize) {
+        std::cout << "Don't have enough bytes in buffer" << std::endl;
+        return nullptr;
+    }
+
+    if (!message->ParseFromCodedStream(&codedInput)) {
+        std::cout << "Parsing failed" << std::endl;
+        return nullptr;
+    }
+
+    if (bytesConsumed) { *bytesConsumed = totalFrameSize; }
+    codedInput.PopLimit(limit);
+    return message;
 }
 
 template <typename Message>
