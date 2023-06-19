@@ -23,7 +23,7 @@ std::shared_ptr<Message> parseDelimited(const void* data, size_t size, size_t* b
     CodedInputStream codedInput((uint8*)data, size);
 
     if (!codedInput.ReadVarint32(&message_size)) {
-        std::cout << "Cant't raed varint" << std::endl;
+//        std::cout << "Cant't raed varint" << std::endl;
         return nullptr;
     }
 
@@ -32,12 +32,12 @@ std::shared_ptr<Message> parseDelimited(const void* data, size_t size, size_t* b
     const size_t totalFrameSize = varintSize + message_size;
 
     if (size < totalFrameSize) {
-        std::cout << "Don't have enough bytes in buffer" << std::endl;
+//        std::cout << "Don't have enough bytes in buffer" << std::endl;
         return nullptr;
     }
 
     if (!message->ParseFromCodedStream(&codedInput)) {
-        std::cout << "Parsing failed" << std::endl;
+//        std::cout << "Parsing failed" << std::endl;
         return nullptr;
     }
 
