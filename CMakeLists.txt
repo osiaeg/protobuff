@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.2)
+cmake_policy(SET CMP0135 NEW)
 
 project(length_prefixed_protobuf LANGUAGES C CXX)
 
+find_package(Protobuf REQUIRED)
 add_subdirectory(src)
 
 include(FetchContent)

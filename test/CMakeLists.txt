@@ -1,7 +1,11 @@
+message(${Protobuf_LIBRARIES})
 add_executable(test_helpers Test_Helpers.cpp)
-target_link_libraries(test_helpers Helpers GTest::gtest_main)
+target_link_libraries(test_helpers ${Protobuf_LIBRARIES} proto GTest::gtest_main)
+target_include_directories(test_helpers PUBLIC ${PROJECT_SOURCE_DIR}/src/protobuf_parser ${CMAKE_BINARY_DIR}/src)
+
 add_executable(test_stream_parser Test_DelimitedMessagesStreamParser.cpp)
-target_link_libraries(test_stream_parser MessageParser GTest::gtest_main)
+target_link_libraries(test_stream_parser ${Protobuf_LIBRARIES} proto GTest::gtest_main)
+target_include_directories(test_stream_parser PUBLIC ${PROJECT_SOURCE_DIR}/src/protobuf_parser ${CMAKE_BINARY_DIR}/src)
 
 include(GoogleTest)
 gtest_discover_tests(test_helpers)
