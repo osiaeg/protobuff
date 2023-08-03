@@ -14,26 +14,32 @@
 
 template <typename MessageType>
 class DelimitedMessagesStreamParser {
- private:
-  std::vector<char> m_buffer;
+private:
+    std::vector<char> m_buffer;
 
- public:
-  typedef std::shared_ptr<const MessageType> PointerToConstValue;
+public:
+    typedef std::shared_ptr<const MessageType> PointerToConstValue;
 
-  std::list<PointerToConstValue> parse(const std::string& data) {
-      std::list<PointerToConstValue> list;
-      for (auto& byte : data) {
-          m_buffer.push_back(byte);
-          size_t readedBytes{ 0 };
-          std::shared_ptr<MessageType> msg = parseDelimited<MessageType>(&*m_buffer.begin(), m_buffer.size(), &readedBytes);
-          if (readedBytes != 0 && msg) {
-              list.push_back(msg);
-              m_buffer.clear();
-          }
-      }
-
-      return list;
-  };
+    std::list<PointerToConstValue> parse(const std::string& data) {
+        std::list<PointerToConstValue> list;
+//      for (auto& byte : data) {
+//          m_buffer.push_back(byte);
+//          size_t readedBytes{ 0 };
+//          std::shared_ptr<MessageType> msg = parseDelimited<MessageType>(&*m_buffer.begin(), m_buffer.size(), &readedBytes);
+//          if (readedBytes != 0 && msg) {
+//              list.push_back(msg);
+//              m_buffer.clear();
+//          }
+//
+        size_t readedBytes{ 0 };
+        std::copy(data.begin(), data.end(), std::back_inserter(m_buffer));
+        std::shared_ptr<MessageType> msg = parseDelimited<MessageType>(&*m_buffer.begin(), m_buffer.size(), &readedBytes);
+        if (msg){
+            m_buffer.erase(m_buffer.begin(),m_buffer.begin() + readedBytes);
+            list.push_back(msg);
+        }
+        return list;
+    };
 };
 
 #endif /* SRC_PROTOBUF_PARSER_DELIMITEDMESSAGESSTREAMPARSER_HPP_ */

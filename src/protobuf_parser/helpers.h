@@ -42,27 +42,24 @@ std::shared_ptr<Message> parseDelimited(const void* data, size_t size, size_t* b
 
     CodedInputStream codedInput((uint8*)data, size);
 
-    if (!codedInput.ReadVarint32(&message_size)) {
-//        std::cout << "Cant't raed varint" << std::endl;
+    if (!codedInput.ReadVarint32(&message_size))
         return nullptr;
-    }
 
     CodedInputStream::Limit limit = codedInput.PushLimit(message_size);
     const size_t varintSize = CodedOutputStream::VarintSize32(message_size);
     const size_t totalFrameSize = varintSize + message_size;
 
-    if (size < totalFrameSize) {
-//        std::cout << "Don't have enough bytes in buffer" << std::endl;
-        return nullptr;
-    }
+    if (bytesConsumed)
+        *bytesConsumed = totalFrameSize;
 
-    if (!message->ParseFromCodedStream(&codedInput)) {
-//        std::cout << "Parsing failed" << std::endl;
+    if (size < totalFrameSize) 
         return nullptr;
-    }
 
-    if (bytesConsumed) { *bytesConsumed = totalFrameSize; }
+    if (!message->ParseFromCodedStream(&codedInput)) 
+        return nullptr;
+
     codedInput.PopLimit(limit);
+
     return message;
 };
 
@@ -81,9 +78,9 @@ PointerToConstData serializeDelimited(const Message& msg){
     return result;
 };
 
-Messages::WrapperMessage* create_fast_response(std::string date);
-Messages::WrapperMessage* create_slow_response(unsigned count);
-Messages::WrapperMessage* create_request_for_fast_response();
-Messages::WrapperMessage* create_request_for_slow_response(unsigned long time);
+WrapperMessage* create_fast_response(std::string date);
+WrapperMessage* create_slow_response(unsigned count);
+WrapperMessage* create_request_for_fast_response();
+WrapperMessage* create_request_for_slow_response(unsigned long time);
 
 #endif /* SRC_PROTOBUF_PARSER_HELPERS_H_ */

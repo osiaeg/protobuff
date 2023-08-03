@@ -5,7 +5,7 @@ int main() {
 
     std::vector<char> messages;
     
-    Messages::WrapperMessage* test_messages[4] {
+    WrapperMessage* test_messages[4] {
         create_fast_response("19851019T050107.333"),
         create_slow_response(100),
         create_request_for_fast_response(),
@@ -13,13 +13,13 @@ int main() {
     };
 
     for (auto & test_message : test_messages) {
-        PointerToConstData res = serializeDelimited<Messages::WrapperMessage>(*test_message);
+        PointerToConstData res = serializeDelimited<WrapperMessage>(*test_message);
         for (auto& c : *res) {
             messages.push_back(c);
         }
     }
 
-    typedef DelimitedMessagesStreamParser<Messages::WrapperMessage> Parser;
+    typedef DelimitedMessagesStreamParser<WrapperMessage> Parser;
     Parser parser;
 
     std::list<std::vector<char>> packages;
@@ -34,9 +34,9 @@ int main() {
     packages.push_back(package);
     
     for (auto pack : packages) {
-        const std::list<std::shared_ptr<const Messages::WrapperMessage>>& parsedMessages = parser.parse(std::string(pack.begin(), pack.end()));
-        for(const std::shared_ptr<const Messages::WrapperMessage>& value : parsedMessages) {
-            std::cout << value->DebugString() << std::endl;
+        const std::list<std::shared_ptr<const WrapperMessage>>& parsedMessages = parser.parse(std::string(pack.begin(), pack.end()));
+        for(const std::shared_ptr<const WrapperMessage>& parsedMessage : parsedMessages) {
+            std::cout << parsedMessage->DebugString() << std::endl;
         }
     }
 
@@ -50,11 +50,11 @@ int main() {
     return 0;
 }
 
-Messages::WrapperMessage* create_fast_response(std::string date) {
-    Messages::WrapperMessage* message;
+WrapperMessage* create_fast_response(std::string date) {
+    WrapperMessage* message;
 
     try {
-        message = new Messages::WrapperMessage();
+        message = new WrapperMessage();
     } catch (std::bad_alloc& ex) {
         std::cout << "Caught bad_alloc: " << ex.what() << std::endl;
     }
@@ -64,11 +64,11 @@ Messages::WrapperMessage* create_fast_response(std::string date) {
     return message;
 }
 
-Messages::WrapperMessage* create_slow_response(unsigned count) {
-    Messages::WrapperMessage* message;
+WrapperMessage* create_slow_response(unsigned count) {
+    WrapperMessage* message;
 
     try {
-        message = new Messages::WrapperMessage();
+        message = new WrapperMessage();
     } catch (std::bad_alloc& ex) {
         std::cout << "Caught bad_alloc: " << ex.what() << std::endl;
     }
@@ -78,10 +78,10 @@ Messages::WrapperMessage* create_slow_response(unsigned count) {
     return message;
 }
 
-Messages::WrapperMessage* create_request_for_fast_response() {
-    Messages::WrapperMessage* message;
+WrapperMessage* create_request_for_fast_response() {
+    WrapperMessage* message;
     try {
-        message = new Messages::WrapperMessage();
+        message = new WrapperMessage();
     } catch (std::bad_alloc& ex) {
         std::cout << "Caught bad_alloc: " << ex.what() << std::endl;
     }
@@ -90,10 +90,10 @@ Messages::WrapperMessage* create_request_for_fast_response() {
     return message;
 }
 
-Messages::WrapperMessage* create_request_for_slow_response(unsigned long time) {
-    Messages::WrapperMessage* message;
+WrapperMessage* create_request_for_slow_response(unsigned long time) {
+    WrapperMessage* message;
     try {
-        message = new Messages::WrapperMessage();
+        message = new WrapperMessage();
     } catch (std::bad_alloc& ex) {
         std::cout << "Caught bad_alloc: " << ex.what() << std::endl;
     }
