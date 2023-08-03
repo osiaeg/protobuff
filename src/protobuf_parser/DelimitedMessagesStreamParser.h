@@ -22,15 +22,6 @@ public:
 
     std::list<PointerToConstValue> parse(const std::string& data) {
         std::list<PointerToConstValue> list;
-//      for (auto& byte : data) {
-//          m_buffer.push_back(byte);
-//          size_t readedBytes{ 0 };
-//          std::shared_ptr<MessageType> msg = parseDelimited<MessageType>(&*m_buffer.begin(), m_buffer.size(), &readedBytes);
-//          if (readedBytes != 0 && msg) {
-//              list.push_back(msg);
-//              m_buffer.clear();
-//          }
-//
         size_t readedBytes{ 0 };
         std::copy(data.begin(), data.end(), std::back_inserter(m_buffer));
         std::shared_ptr<MessageType> msg = parseDelimited<MessageType>(&*m_buffer.begin(), m_buffer.size(), &readedBytes);
