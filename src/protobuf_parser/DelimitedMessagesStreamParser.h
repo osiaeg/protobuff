@@ -24,10 +24,13 @@ public:
         std::list<PointerToConstValue> list;
         size_t readedBytes{ 0 };
         std::copy(data.begin(), data.end(), std::back_inserter(m_buffer));
-        std::shared_ptr<MessageType> msg = parseDelimited<MessageType>(&*m_buffer.begin(), m_buffer.size(), &readedBytes);
-        if (msg){
-            m_buffer.erase(m_buffer.begin(),m_buffer.begin() + readedBytes);
-            list.push_back(msg);
+        while (m_buffer.size() > readedBytes) {
+            std::shared_ptr<MessageType> msg = parseDelimited<MessageType>(&*m_buffer.begin(), m_buffer.size(), &readedBytes);
+            if (msg){
+                m_buffer.erase(m_buffer.begin(),m_buffer.begin() + readedBytes);
+                list.push_back(msg);
+                readedBytes = 0;
+            }    
         }
         return list;
     };
