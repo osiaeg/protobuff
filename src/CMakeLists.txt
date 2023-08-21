@@ -4,7 +4,6 @@ project(protobuf_parser)
 set(CMAKE_CXX_STANDARD 20)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-#find_package(Protobuf REQUIRED)
 add_executable(parser main.cpp)
 
 protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS proto_files/wrappermessage.proto)

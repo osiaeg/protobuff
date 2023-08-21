@@ -1,4 +1,3 @@
-message(${Protobuf_LIBRARIES})
 add_executable(test_helpers Test_Helpers.cpp)
 target_link_libraries(test_helpers ${Protobuf_LIBRARIES} proto GTest::gtest_main)
 target_include_directories(test_helpers PUBLIC ${PROJECT_SOURCE_DIR}/src/protobuf_parser ${CMAKE_BINARY_DIR}/src)

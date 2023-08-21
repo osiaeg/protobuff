@@ -78,9 +78,54 @@ PointerToConstData serializeDelimited(const Message& msg){
     return result;
 };
 
-WrapperMessage* create_fast_response(std::string date);
-WrapperMessage* create_slow_response(unsigned count);
-WrapperMessage* create_request_for_fast_response();
-WrapperMessage* create_request_for_slow_response(unsigned long time);
+WrapperMessage* create_fast_response(std::string date) {
+    Messages::WrapperMessage* message;
+
+    try {
+        message = new Messages::WrapperMessage();
+    } catch (std::bad_alloc& ex) {
+        std::cout << "Caught bad_alloc: " << ex.what() << std::endl;
+    }
+
+    message->mutable_fast_response()
+            ->set_current_date_time(date);
+    return message;
+};
+WrapperMessage* create_slow_response(unsigned count) {
+    Messages::WrapperMessage* message;
+
+    try {
+        message = new Messages::WrapperMessage();
+    } catch (std::bad_alloc& ex) {
+        std::cout << "Caught bad_alloc: " << ex.what() << std::endl;
+    }
+
+    message->mutable_slow_response()
+            ->set_connected_client_count(count);
+    return message;
+};
+WrapperMessage* create_request_for_fast_response() {
+    Messages::WrapperMessage* message;
+    try {
+        message = new Messages::WrapperMessage();
+    } catch (std::bad_alloc& ex) {
+        std::cout << "Caught bad_alloc: " << ex.what() << std::endl;
+    }
+
+    *message->mutable_request_for_fast_response() = Messages::RequestForFastResponse();
+    return message;
+};
+WrapperMessage* create_request_for_slow_response(unsigned long time) {
+    Messages::WrapperMessage* message;
+    try {
+        message = new Messages::WrapperMessage();
+    } catch (std::bad_alloc& ex) {
+        std::cout << "Caught bad_alloc: " << ex.what() << std::endl;
+    }
+
+    message->mutable_request_for_slow_response()
+            ->set_time_in_seconds_to_sleep(time);
+    return message;
+};
 
 #endif /* SRC_PROTOBUF_PARSER_HELPERS_H_ */

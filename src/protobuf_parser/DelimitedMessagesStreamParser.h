@@ -27,7 +27,7 @@ public:
         while (m_buffer.size() > readedBytes) {
             std::shared_ptr<MessageType> msg = parseDelimited<MessageType>(&*m_buffer.begin(), m_buffer.size(), &readedBytes);
             if (msg){
-                m_buffer.erase(m_buffer.begin(),m_buffer.begin() + readedBytes);
+                m_buffer.erase(m_buffer.begin(),m_buffer.begin() + (long long)readedBytes);
                 list.push_back(msg);
                 readedBytes = 0;
             }    
