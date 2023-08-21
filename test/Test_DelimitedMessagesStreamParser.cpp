@@ -43,4 +43,3 @@ TEST(StreamParser, List) {
         delete message;
     }
 }
-
