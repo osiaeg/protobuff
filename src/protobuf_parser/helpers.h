@@ -52,10 +52,10 @@ std::shared_ptr<Message> parseDelimited(const void* data, size_t size, size_t* b
     if (bytesConsumed)
         *bytesConsumed = totalFrameSize;
 
-    if (size < totalFrameSize) 
+    if (size < totalFrameSize)
         return nullptr;
 
-    if (!message->ParseFromCodedStream(&codedInput)) 
+    if (!message->ParseFromCodedStream(&codedInput))
         return nullptr;
 
     codedInput.PopLimit(limit);
