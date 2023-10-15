@@ -49,14 +49,15 @@ std::shared_ptr<Message> parseDelimited(const void* data, size_t size, size_t* b
     const size_t varintSize = CodedOutputStream::VarintSize32(message_size);
     const size_t totalFrameSize = varintSize + message_size;
 
-    if (bytesConsumed)
+    if (size < totalFrameSize) {
+        return nullptr;
+    }
+
+    if (!message->ParseFromCodedStream(&codedInput)){
+        throw std::runtime_error("Wrong Data");
+    } else {
         *bytesConsumed = totalFrameSize;
-
-    if (size < totalFrameSize)
-        return nullptr;
-
-    if (!message->ParseFromCodedStream(&codedInput))
-        return nullptr;
+    }
 
     codedInput.PopLimit(limit);
 
@@ -76,56 +77,6 @@ PointerToConstData serializeDelimited(const Message& msg){
     msg.SerializeToArray(buffer + headerSize, messageSize);
 
     return result;
-};
-
-WrapperMessage* create_fast_response(std::string date) {
-    WrapperMessage* message;
-
-    try {
-        message = new WrapperMessage();
-    } catch (std::bad_alloc& ex) {
-        std::cout << "Caught bad_alloc: " << ex.what() << std::endl;
-    }
-
-    message->mutable_fast_response()
-            ->set_current_date_time(date);
-    return message;
-};
-WrapperMessage* create_slow_response(unsigned count) {
-    WrapperMessage* message;
-
-    try {
-        message = new WrapperMessage();
-    } catch (std::bad_alloc& ex) {
-        std::cout << "Caught bad_alloc: " << ex.what() << std::endl;
-    }
-
-    message->mutable_slow_response()
-            ->set_connected_client_count(count);
-    return message;
-};
-WrapperMessage* create_request_for_fast_response() {
-    WrapperMessage* message;
-    try {
-        message = new WrapperMessage();
-    } catch (std::bad_alloc& ex) {
-        std::cout << "Caught bad_alloc: " << ex.what() << std::endl;
-    }
-
-    *message->mutable_request_for_fast_response() = TestTask::Messages::RequestForFastResponse();
-    return message;
-};
-WrapperMessage* create_request_for_slow_response(unsigned long time) {
-    WrapperMessage* message;
-    try {
-        message = new WrapperMessage();
-    } catch (std::bad_alloc& ex) {
-        std::cout << "Caught bad_alloc: " << ex.what() << std::endl;
-    }
-
-    message->mutable_request_for_slow_response()
-            ->set_time_in_seconds_to_sleep(time);
-    return message;
 };
 
 #endif /* SRC_PROTOBUF_PARSER_HELPERS_H_ */

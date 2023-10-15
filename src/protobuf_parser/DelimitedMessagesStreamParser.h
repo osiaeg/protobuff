@@ -30,7 +30,9 @@ public:
                 m_buffer.erase(m_buffer.begin(),m_buffer.begin() + (long long)readedBytes);
                 list.push_back(msg);
                 readedBytes = 0;
-            }    
+            } else {
+                break;
+            }
         }
         return list;
     };
