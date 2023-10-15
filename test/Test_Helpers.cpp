@@ -1,45 +1,121 @@
-/*
- * Test_Helpers.cpp
- *
- *  Created on: 2 Feb 2023
- *      Author: sia
- */
+//#include <protobuf_parser/helpers.hpp>
+//#include <protobuf/message.pb.h>
+
 #include <gtest/gtest.h>
-#include "helpers.h"
-using namespace Messages;
+#include "wrappermessage.pb.h"
+#include "protobuf_parser/helpers.h"
 
-TEST(FastResponseTest, Message) {
-    WrapperMessage* message = create_fast_response("19851019T050107.333");
-    PointerToConstData res = serializeDelimited<WrapperMessage>(*message);
-//    size_t sucssesBytes = 0;
-    std::shared_ptr<WrapperMessage> parsed_message = parseDelimited<WrapperMessage>(&*res->begin(), res->size());
+TEST(ParseDelimited, DefaultTest)
+{
+  std::shared_ptr<TestTask::Messages::WrapperMessage> delimited;
 
-    EXPECT_EQ(message->fast_response().current_date_time(),
-              parsed_message->fast_response().current_date_time());
+  TestTask::Messages::WrapperMessage message;
+  message.mutable_request_for_fast_response();
 
-    delete message;
+  auto buffer = serializeDelimited(message);
+  size_t bytesConsumed = 0;
+
+  delimited = parseDelimited<TestTask::Messages::WrapperMessage>(
+                buffer->data(),
+                buffer->size(),
+                &bytesConsumed
+              );
+
+  ASSERT_FALSE(delimited == nullptr);
+  EXPECT_TRUE(delimited->has_request_for_fast_response());
+  EXPECT_EQ(bytesConsumed, buffer->size());
 }
 
-TEST(SlowResponseTest, Message) {
-    WrapperMessage* message = create_slow_response(10);
-    PointerToConstData res = serializeDelimited<WrapperMessage>(*message);
- //   size_t sucssesBytes = 0;
-    std::shared_ptr<WrapperMessage> parsed_message = parseDelimited<WrapperMessage>(&*res->begin(), res->size());
+TEST(ParseDelimited, NullDataTest)
+{
+  std::shared_ptr<TestTask::Messages::WrapperMessage> delimited;
 
-    EXPECT_EQ(message->slow_response().connected_client_count(),
-              parsed_message->slow_response().connected_client_count());
-    
-    delete message;
+  size_t bytesConsumed = 0;
+
+  delimited = parseDelimited<TestTask::Messages::WrapperMessage>(
+                nullptr,
+                0,
+                &bytesConsumed
+              );
+
+  ASSERT_TRUE(delimited == nullptr);
+  EXPECT_EQ(bytesConsumed, 0);
 }
 
-TEST(RequesForSlowResponseTest, Message) {
-    WrapperMessage* message = create_request_for_slow_response(1000);
-    PointerToConstData res = serializeDelimited<WrapperMessage>(*message);
-  //  size_t sucssesBytes = 0;
-    std::shared_ptr<WrapperMessage> parsed_message = parseDelimited<WrapperMessage>(&*res->begin(), res->size());
+TEST(ParseDelimited, EmptyDataTest)
+{
+  std::shared_ptr<TestTask::Messages::WrapperMessage> delimited;
 
-    EXPECT_EQ(message->request_for_slow_response().time_in_seconds_to_sleep(),
-              parsed_message->request_for_slow_response().time_in_seconds_to_sleep());
+  size_t bytesConsumed = 0;
 
-    delete message;
+  delimited = parseDelimited<TestTask::Messages::WrapperMessage>(
+                "",
+                0,
+                &bytesConsumed
+              );
+
+  ASSERT_TRUE(delimited == nullptr);
+  EXPECT_EQ(bytesConsumed, 0);
+}
+
+TEST(ParseDelimited, WrongDataTest)
+{
+  std::shared_ptr<TestTask::Messages::WrapperMessage> delimited;
+
+  std::string buffer = "\x05wrong";
+  EXPECT_THROW(
+    parseDelimited<TestTask::Messages::WrapperMessage>(buffer.data(), buffer.size()),
+    std::runtime_error
+  );
+}
+
+TEST(ParseDelimited, CorruptedDataTest)
+{
+  std::shared_ptr<TestTask::Messages::WrapperMessage> delimited;
+
+  TestTask::Messages::WrapperMessage message;
+  message.mutable_request_for_fast_response();
+
+  auto buffer = serializeDelimited(message);
+  size_t bytesConsumed = 0;
+
+  std::string corrupted = std::string(buffer->begin(), buffer->end());
+  corrupted[0] -= 1;
+
+  EXPECT_THROW(
+    parseDelimited<TestTask::Messages::WrapperMessage>(corrupted.data(), corrupted.size()),
+    std::runtime_error
+  );
+}
+
+TEST(ParseDelimited, WrongMessageSizeTest)
+{
+  std::shared_ptr<TestTask::Messages::WrapperMessage> delimited;
+
+  TestTask::Messages::WrapperMessage message;
+  message.mutable_request_for_fast_response();
+
+  auto buffer = serializeDelimited(message);
+  size_t bytesConsumed = 0;
+
+  delimited = parseDelimited<TestTask::Messages::WrapperMessage>(
+                buffer->data(),
+                buffer->size() * 2,
+                &bytesConsumed
+              );
+
+  ASSERT_FALSE(delimited == nullptr);
+  EXPECT_TRUE(delimited->has_request_for_fast_response());
+  EXPECT_EQ(bytesConsumed, buffer->size());
+
+  bytesConsumed = 0;
+
+  delimited = parseDelimited<TestTask::Messages::WrapperMessage>(
+                buffer->data(),
+                buffer->size() / 2,
+                &bytesConsumed
+              );
+
+  ASSERT_TRUE(delimited == nullptr);
+  EXPECT_EQ(bytesConsumed, 0);
 }

@@ -18,7 +18,7 @@ using PointerToData = std::shared_ptr<Data>;
 using PointerToConstData = std::shared_ptr<const Data>;
 using uint8 = google::protobuf::uint8;
 using uint32 = google::protobuf::uint32;
-using WrapperMessage = Messages::WrapperMessage;
+using WrapperMessage = TestTask::Messages::WrapperMessage;
 using namespace google::protobuf::io;
 
 template<typename Message>
@@ -79,10 +79,10 @@ PointerToConstData serializeDelimited(const Message& msg){
 };
 
 WrapperMessage* create_fast_response(std::string date) {
-    Messages::WrapperMessage* message;
+    WrapperMessage* message;
 
     try {
-        message = new Messages::WrapperMessage();
+        message = new WrapperMessage();
     } catch (std::bad_alloc& ex) {
         std::cout << "Caught bad_alloc: " << ex.what() << std::endl;
     }
@@ -92,10 +92,10 @@ WrapperMessage* create_fast_response(std::string date) {
     return message;
 };
 WrapperMessage* create_slow_response(unsigned count) {
-    Messages::WrapperMessage* message;
+    WrapperMessage* message;
 
     try {
-        message = new Messages::WrapperMessage();
+        message = new WrapperMessage();
     } catch (std::bad_alloc& ex) {
         std::cout << "Caught bad_alloc: " << ex.what() << std::endl;
     }
@@ -105,20 +105,20 @@ WrapperMessage* create_slow_response(unsigned count) {
     return message;
 };
 WrapperMessage* create_request_for_fast_response() {
-    Messages::WrapperMessage* message;
+    WrapperMessage* message;
     try {
-        message = new Messages::WrapperMessage();
+        message = new WrapperMessage();
     } catch (std::bad_alloc& ex) {
         std::cout << "Caught bad_alloc: " << ex.what() << std::endl;
     }
 
-    *message->mutable_request_for_fast_response() = Messages::RequestForFastResponse();
+    *message->mutable_request_for_fast_response() = TestTask::Messages::RequestForFastResponse();
     return message;
 };
 WrapperMessage* create_request_for_slow_response(unsigned long time) {
-    Messages::WrapperMessage* message;
+    WrapperMessage* message;
     try {
-        message = new Messages::WrapperMessage();
+        message = new WrapperMessage();
     } catch (std::bad_alloc& ex) {
         std::cout << "Caught bad_alloc: " << ex.what() << std::endl;
     }

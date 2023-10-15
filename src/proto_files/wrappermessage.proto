@@ -1,6 +1,6 @@
 syntax = "proto2";
 
-package Messages;
+package TestTask.Messages;
 
 message WrapperMessage {
 	optional FastResponse fast_response = 1;
