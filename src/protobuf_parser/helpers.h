@@ -18,7 +18,6 @@ using PointerToData = std::shared_ptr<Data>;
 using PointerToConstData = std::shared_ptr<const Data>;
 using uint8 = google::protobuf::uint8;
 using uint32 = google::protobuf::uint32;
-using WrapperMessage = TestTask::Messages::WrapperMessage;
 using namespace google::protobuf::io;
 
 template<typename Message>
